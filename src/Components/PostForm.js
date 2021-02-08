@@ -40,7 +40,7 @@ const PostForm = ({ initialValue = {title:"", content:""}, editingHandle, postId
   };
 
   const newPost = () => {
-    axios.post("https://react-yazi-yorum.herokuapp.com/postsd/",{
+    axios.post("https://react-yazi-yorum.herokuapp.com/posts/",{
       title: post.title,
       content: post.content
     })
