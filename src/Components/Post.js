@@ -1,0 +1,57 @@
+import axios from "axios";
+import moment from "moment";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Header, Segment, Button } from "semantic-ui-react";
+import { DeleteButton, PostForm } from "./";
+
+const Post = (props) => {
+  const { id } = props.match.params;
+  const [isLoading, setIsLoading] = useState(true);
+  const [post, setPost] = useState({});
+  const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    axios
+      .get(`https://react-yazi-yorum.herokuapp.com/posts/${id}`)
+      .then(({ data }) => {
+        setPost(data);
+        setIsLoading(false);
+      })
+      .catch((err) => alert(err));
+  }, [isEditing, id]);
+
+  const editingHandle = (value) => setIsEditing(value);
+
+  return (
+    <Segment loading={isLoading} size="small" style={{ minHeight: 100 }}>
+      {isEditing ? (
+        <PostForm
+          initialValue={{ content: post.content, title: post.title }}
+          editingHandle={editingHandle}
+          postId={id}
+          isNewPost={false}
+        />
+      ) : (
+        <>
+          <div>
+            <Header>{post.title}</Header>
+            <div>{post.content}</div>
+            <div>{moment(post.created_at).fromNow()}</div>
+          </div>
+          <div style={{ marginTop: 20 }}>
+            <Link to="/">
+              <Button>Geri</Button>
+            </Link>
+            <DeleteButton id={post.id} />
+            <Button onClick={() => editingHandle(true)} color="blue">
+              Düzenle
+            </Button>
+          </div>
+        </>
+      )}
+    </Segment>
+  );
+};
+
+export default Post;
