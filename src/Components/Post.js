@@ -3,7 +3,7 @@ import moment from "moment";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Header, Segment, Button } from "semantic-ui-react";
-import { DeleteButton, PostForm } from "./";
+import { DeleteButton, PostForm, Comments } from "./";
 
 const Post = (props) => {
   const { id } = props.match.params;
@@ -24,7 +24,8 @@ const Post = (props) => {
   const editingHandle = (value) => setIsEditing(value);
 
   return (
-    <Segment loading={isLoading} size="small" style={{ minHeight: 100 }}>
+<>
+<Segment loading={isLoading} size="small" style={{ minHeight: 100 }}>
       {isEditing ? (
         <PostForm
           initialValue={{ content: post.content, title: post.title }}
@@ -51,6 +52,8 @@ const Post = (props) => {
         </>
       )}
     </Segment>
+    <Comments id={id} type="POST_COMMENTS"/>
+</>
   );
 };
 

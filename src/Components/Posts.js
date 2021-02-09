@@ -3,6 +3,7 @@ import { List, Segment, Button } from "semantic-ui-react";
 import moment from "moment";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { Comments } from "./";
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
@@ -46,6 +47,7 @@ const Posts = () => {
       <Link to="/posts/new">
         <Button>Yeni Post Ekle</Button>
       </Link>
+    <Comments type="LATEST_COMMENTS"/>
     </>
   );
 };
