@@ -5,8 +5,8 @@ import { FullModal } from "./";
 import { useHistory } from "react-router-dom";
 
 const DeleteButton = ({ id }) => {
-  const history = useHistory();
   const [modal, setModal] = useState(false);
+  const history = useHistory();
 
   const deletePost = () => {
     api()
