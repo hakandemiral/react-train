@@ -1,15 +1,15 @@
 import api from "../api";
 import moment from "moment";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Header, Segment, Button } from "semantic-ui-react";
 import { DeleteButton, PostForm, Comments } from "./";
 
-const Post = (props) => {
-  const { id } = props.match.params;
+const Post = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [post, setPost] = useState({});
   const [isEditing, setIsEditing] = useState(false);
+  const { id } = useParams();
 
   useEffect(() => {
     api()
