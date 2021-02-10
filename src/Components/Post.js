@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../api";
 import moment from "moment";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -12,8 +12,8 @@ const Post = (props) => {
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    axios
-      .get(`https://react-yazi-yorum.herokuapp.com/posts/${id}`)
+    api()
+      .get(`/posts/${id}`)
       .then(({ data }) => {
         setPost(data);
         setIsLoading(false);

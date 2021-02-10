@@ -1,6 +1,6 @@
 import { Button, Comment, Form, Header, Segment } from "semantic-ui-react";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api";
 import moment from "moment";
 
 const Comments = ({ id = 0, type }) => {
@@ -13,30 +13,29 @@ const Comments = ({ id = 0, type }) => {
   }, []);
 
   const getComments = () => {
-    let request = {
-      base_url: "https://react-yazi-yorum.herokuapp.com",
-      endpoint: "",
-    };
+    let endpoint = "";
 
     switch (type) {
       case "POST_COMMENTS":
-        request.endpoint = `/posts/${id}/comments`;
+        endpoint = `/posts/${id}/comments`;
         break;
       case "LATEST_COMMENTS":
-        request.endpoint = "/posts/latest-comments";
+        endpoint = "/posts/latest-comments";
+        break;
+      default:
         break;
     }
 
-    axios
-      .get(request.base_url + request.endpoint)
+    api()
+      .get(endpoint)
       .then(({ data }) => setComments(data))
       .catch((err) => alert(err))
       .finally(() => setIsLoading(false));
   };
 
   const sendComment = () => {
-    axios
-      .post(`https://react-yazi-yorum.herokuapp.com/posts/${id}/comments`, {
+    api()
+      .post(`/posts/${id}/comments`, {
         display_name: commentInputs.name,
         body: commentInputs.content,
       })
@@ -47,9 +46,9 @@ const Comments = ({ id = 0, type }) => {
   };
 
   const deleteComment = (comment_id) => {
-    axios
+    api()
       .delete(
-        `https://react-yazi-yorum.herokuapp.com/posts/${id}/comments/${comment_id}`
+        `/posts/${id}/comments/${comment_id}`
       )
       .catch((err) => alert(err))
       .finally(() => getComments());

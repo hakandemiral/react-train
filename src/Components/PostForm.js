@@ -1,6 +1,6 @@
-import axios from "axios";
+import api from "../api";
 import { useState } from "react";
-import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import { Button, Form, Message } from "semantic-ui-react";
 
@@ -9,7 +9,8 @@ const PostForm = ({ initialValue = {title:"", content:""}, editingHandle, postId
   const [isSuccess, setIsSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errMsg, setErrMsg] = useState(false);
-  const [redirect, setRedirect] = useState("");
+
+  const history = useHistory();
 
   const handlePost = (e) => {
     setPost({ ...post, [e.target.id]: e.target.value });
@@ -20,10 +21,10 @@ const PostForm = ({ initialValue = {title:"", content:""}, editingHandle, postId
       post.content === initialValue.content) {
         return false;
     }
-
+console.log(api);
     setIsLoading(true);
-    axios
-      .put(`https://react-yazi-yorum.herokuapp.com/posts/${postId}`, {
+    api()
+      .put(`/posts/${postId}`, {
         title: post.title,
         content: post.content,
       })
@@ -40,13 +41,13 @@ const PostForm = ({ initialValue = {title:"", content:""}, editingHandle, postId
   };
 
   const newPost = () => {
-    axios.post("https://react-yazi-yorum.herokuapp.com/posts/",{
+    api().post("/posts/",{
       title: post.title,
       content: post.content
     })
     .then(({data : { id }}) => {
       setIsSuccess(true);
-      setRedirect(<Redirect to={`/posts/${id}`}/>);
+      history.push(`/posts/${id}`);
     })
     .catch((err) => {
       console.log(err)
@@ -57,7 +58,6 @@ const PostForm = ({ initialValue = {title:"", content:""}, editingHandle, postId
 
   return (
     <div>
-      {redirect}
       <Form loading={isLoading} success={isSuccess} error={errMsg}>
         <Form.Field>
           <label htmlFor="title">Title</label>
@@ -87,7 +87,7 @@ const PostForm = ({ initialValue = {title:"", content:""}, editingHandle, postId
         <Message error header="Hata" content={errMsg} />
         <Button onClick={() => {
           if(isNewPost){
-            setRedirect(<Redirect to="/" />);
+            history.push("/");
           }else{
             editingHandle(false)
             }

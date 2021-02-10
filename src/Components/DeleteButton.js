@@ -1,19 +1,19 @@
-import axios from "axios";
+import api from "../api";
 import { useState } from "react";
 import { Button } from "semantic-ui-react";
 import { FullModal } from "./";
-import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const DeleteButton = ({ id }) => {
+  const history = useHistory();
   const [modal, setModal] = useState(false);
-  const [redirect, setRedirect] = useState("");
 
   const deletePost = () => {
-    axios
-      .delete(`https://react-yazi-yorum.herokuapp.com/posts/${id}`)
+    api()
+      .delete(`/posts/${id}`)
       .then((res) => {
         handleModal(false);
-        setRedirect(<Redirect to="/" />);
+        history.push("/")
       })
       .catch((err) => alert(`Silinemedi: ${err}`));
   };
@@ -24,7 +24,6 @@ const DeleteButton = ({ id }) => {
 
   return (
     <>
-      {redirect}
       {modal && (
         <FullModal
           isOpen={modal}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { List, Segment, Button } from "semantic-ui-react";
 import moment from "moment";
-import axios from "axios";
+import api from "../api";
 import { Link } from "react-router-dom";
 import { Comments } from "./";
 
@@ -10,8 +10,8 @@ const Posts = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get("https://react-yazi-yorum.herokuapp.com/posts")
+    api()
+      .get("/posts")
       .then(({ data }) => {
         setPosts(data);
       })
