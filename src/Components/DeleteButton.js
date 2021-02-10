@@ -13,7 +13,7 @@ const DeleteButton = ({ id }) => {
       .delete(`/posts/${id}`)
       .then((res) => {
         handleModal(false);
-        history.push("/")
+        history.push("/");
       })
       .catch((err) => alert(`Silinemedi: ${err}`));
   };
@@ -24,13 +24,11 @@ const DeleteButton = ({ id }) => {
 
   return (
     <>
-      {modal && (
-        <FullModal
-          isOpen={modal}
-          handleModal={handleModal}
-          deletePost={deletePost}
-        />
-      )}
+      <FullModal
+        isOpen={modal}
+        handleModal={handleModal}
+        deletePost={deletePost}
+      />
       <Button onClick={() => setModal(true)} color="red">
         Sil
       </Button>
